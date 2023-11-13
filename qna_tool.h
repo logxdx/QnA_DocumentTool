@@ -5,8 +5,6 @@
 #include "dict.h"
 #include "search.h"
 
-#include "symtable.h"
-
 //#include "trie.cpp"
 const int ALPHABET_SIZE = 26;
 using namespace std;
@@ -57,6 +55,34 @@ public:
 
     // You can add attributes/helper functions here
 
+
+
+class SymNode {
+public:
+    string key;
+    int height;
+    unsigned long long count = 0;
+    double score = 0;
+    
+    SymNode* par = NULL;
+    SymNode* left = NULL;
+    SymNode* right = NULL;
+
+    SymNode();
+    // SymNode(SymNode&& source);
+    // SymNode(SymNode& source);
+    
+    SymNode(const SymNode& other);
+    SymNode(string k);
+
+    SymNode* LeftLeftRotation(); // case 1
+    SymNode* RightRightRotation(); // case 2
+    SymNode* LeftRightRotation(); // case 3
+    SymNode* RightLeftRotation(); // case 4
+
+    ~SymNode();
+    
+};
 
 class SymbolTable {
 private:
@@ -115,5 +141,7 @@ void heapify(vector<scored_para>& arr, int n, int i);
 
 void heapSort(vector<scored_para>& arr, int k);
 
+
  
+
 };

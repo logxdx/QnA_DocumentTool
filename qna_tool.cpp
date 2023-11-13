@@ -5,6 +5,201 @@
 using namespace std;
 
 
+int maintainheight(QNA_tool::SymNode* root)
+{
+    if (root == NULL)
+    {
+        return -1;
+    }
+
+    else
+    {
+        int h = 1 + max(maintainheight(root->left),maintainheight(root->right));
+        root->height = h;
+        return h;
+    }
+    
+}
+
+QNA_tool::SymNode::SymNode()
+{
+    key = "";
+    height = -1;
+    count = 0;
+
+    par = NULL;
+    left = NULL;
+    right = NULL;
+
+}
+
+QNA_tool::SymNode::SymNode(const SymNode& other)
+    : key(other.key), height(other.height), count(other.count),
+      score(other.score), par(other.par), left(nullptr), right(nullptr)
+{
+    // Additional code if needed
+    //cout << "copy node" << key;
+}
+
+QNA_tool::SymNode::SymNode(string k)
+{
+    key = k;
+    height = 0;
+    count = 1;
+
+    par = NULL;
+    left = NULL;
+    right = NULL;
+
+}
+
+QNA_tool::SymNode* QNA_tool::SymNode::LeftLeftRotation()
+{
+    SymNode* y = right;
+    
+    if (y->left != NULL)
+    {
+        right = y->left;
+        y->left->par = this;
+        y->left = NULL;
+        y->par = NULL;
+    }
+    else
+    {
+        right = NULL;
+        y->par = NULL;
+    }
+    
+    
+    if (par == NULL)
+    {
+        par = y;
+        y->left = this;
+        
+    }
+
+    else if (par->left == this)
+    {
+        par->left = y;
+        y->par = par;
+        par = NULL;
+    }
+
+    else
+    {
+        par->right = y;
+        y->par = par;
+        par = NULL;
+    }
+
+    par = y;
+    y->left = this;
+
+    SymNode* r = par;
+    while (r->par != NULL)
+    {
+        r = r->par;
+    }
+
+    maintainheight(r);
+    return r;
+
+}
+
+QNA_tool::SymNode* QNA_tool::SymNode::RightRightRotation()
+{
+    SymNode* x = left;
+
+   if (x->right != NULL)
+   {
+        left = x->right;
+        x->right->par = this;
+        x->right = NULL;
+        x->par = NULL;
+   }
+   else
+    {
+        left = NULL;
+        x->par = NULL;
+    }
+
+   if (par == NULL)
+   {
+        par = x;
+        x->right = this;
+   }
+
+   else if (par->right == this)
+   {
+        par->right = x;
+        x->par = par;
+        par = NULL;
+
+   }
+
+   else
+   {
+        par->left = x;
+        x->par = par;
+        par = NULL;
+   }
+
+   par = x;
+   x->right = this;
+
+    SymNode* r = par;
+    while (r->par != NULL)
+    {
+        r = r->par;
+    }
+
+    maintainheight(r);
+    return r;
+   
+}
+
+QNA_tool::SymNode* QNA_tool::SymNode::LeftRightRotation()
+{
+    left->LeftLeftRotation();
+    RightRightRotation();
+    SymNode* r = par;
+    while (r->par != NULL)
+    {
+        r = r->par;
+    }
+
+    return r;
+
+}
+
+QNA_tool::SymNode* QNA_tool::SymNode::RightLeftRotation()
+{
+    right->RightRightRotation();
+    LeftLeftRotation();
+    SymNode* r = par;
+    while (r->par != NULL)
+    {
+        r = r->par;
+    }
+
+    return r;
+}
+
+// void delsubtree(SymNode* root)
+// {
+//     if (root != nullptr)
+//     {
+//         delsubtree(root->left);
+//         delsubtree(root->right);
+//         delete root;
+//     }
+    
+// }
+
+QNA_tool::SymNode::~SymNode()
+{
+   // cout << "mem free at " << key << endl;
+}
 
 
 
@@ -18,7 +213,7 @@ using namespace std;
 
 
 //Write your code below this line
-int maintainheights(SymNode* root)
+int maintainheights(QNA_tool::SymNode* root)
 {
     if (root == NULL)
     {
@@ -34,7 +229,7 @@ int maintainheights(SymNode* root)
     
 }
 
-int balancefactor(SymNode* root)
+int balancefactor(QNA_tool::SymNode* root)
 {
     if (root == NULL)
     {
@@ -47,18 +242,18 @@ int balancefactor(SymNode* root)
     
 }
 
-SymbolTable::SymbolTable()
+QNA_tool::SymbolTable::SymbolTable()
 {
     //cout << "inta" << endl;
 }
-SymbolTable::SymbolTable(const SymbolTable &source)
+QNA_tool::SymbolTable::SymbolTable(const SymbolTable &source)
 {
    // cout << "copy " << source.root << endl;
     root = copyNodes(source.root);
     size = source.size;
 }
 
-SymNode* SymbolTable::copyNodes(SymNode* node)
+QNA_tool::SymNode* QNA_tool::SymbolTable::copyNodes(SymNode* node)
 {
     if (node == nullptr)
         return nullptr;
@@ -69,7 +264,7 @@ SymNode* SymbolTable::copyNodes(SymNode* node)
 
     return newNode;
 }
-void SymbolTable::insert(string k)
+void QNA_tool::SymbolTable::insert(string k)
 {
     SymNode* newnode = new SymNode(k);
 
@@ -120,7 +315,7 @@ void SymbolTable::insert(string k)
         }
         
         maintainheights(root);
-        SymNode* traversal = newnode;
+        QNA_tool::SymNode* traversal = newnode;
         while (true)
         {
             int e = balancefactor(traversal);
@@ -185,7 +380,7 @@ void SymbolTable::insert(string k)
     }
 }
 
-unsigned long long SymbolTable::search(string k)
+unsigned long long QNA_tool::SymbolTable::search(string k)
 {
     SymNode* head = root;
     while (head != NULL)
@@ -219,19 +414,19 @@ unsigned long long SymbolTable::search(string k)
 
 }
 
-int SymbolTable::get_size()
+int QNA_tool::SymbolTable::get_size()
 {
     return size;
 
 }
 
-SymNode* SymbolTable::get_root()
+QNA_tool::SymNode* QNA_tool::SymbolTable::get_root()
 {
     return root;
 
 }
 
-void destroy(SymNode* root)
+void destroy(QNA_tool::SymNode* root)
 {
     if (root != NULL)
     {
@@ -244,50 +439,13 @@ void destroy(SymNode* root)
     
 }
 
-SymbolTable::~SymbolTable()
+QNA_tool::SymbolTable::~SymbolTable()
 {
     //cout << "into destro" << endl;
     destroy(root);
     root = nullptr;
     //free(root);
 }
-
-// void print_AVL_Tree(SymNode* root, int depth = 0) {
-    
-//     for (int i = 0; i < depth; ++i) {
-//         std::cout << "  ";
-//     }
-//     cout << root->key << endl;
-    
-//     if (root->left != nullptr) {
-//         print_AVL_Tree(root->left, depth+1);
-//     }
-//     if (root->right != nullptr) {
-//         print_AVL_Tree(root->right, depth + 1);
-//     }
-// }
-
-// int main()
-// {
-//     SymbolTable a;
-//     a.insert("a");
-//     a.insert("b");
-//     a.insert("c");
-//     a.insert("e");
-//     a.insert("d");
-//     // a.insert("6");
-//     // a.insert("7");
-//     // a.insert("8");
-
-//     // a.remove("6");
-//     // a.remove("5");
-//     // a.remove("4");
-//     // a.remove("3");
-//    // print_AVL_Tree(a.get_root());
-//    a.remove("a");
-//    a.remove("b");
-//     cout << "done";
-// }
 
 
 
@@ -322,33 +480,7 @@ vector<string> ppr(std::string pat) {
         }
     }
 
-   /* for (int i = 0; i < pat.size(); i++)
-    {
-        char s = pat[i];
-        if (s - 'a' >= 0 and s -'z' <= 0 )
-        {
-            word+= s;
-        }
 
-        else if (s - 'A' >=0 and s- 'Z' <= 0)
-        {
-            word += (char)(s+32);
-        }
-
-        else
-        {
-            if (word.size() != 0 )
-            {
-                ret.push_back(word);
-                word = "";
-            }
-            
-        }
-        
-        
-        
-    }*/
-    
 
     if(word.size() !=0) {
         ret.push_back(word);
@@ -370,18 +502,6 @@ QNA_tool::QNA_tool()
 
 QNA_tool::~QNA_tool()
 {
-    // for (int i = 0; i < mainobj.size(); i++)
-    // {
-    //     for (int j = 0; j < mainobj[i].size(); j++)
-    //     {
-    //         for(int k = 0; k < mainobj[i][j].size(); k++)
-    //         {
-    //             delete mainobj[i][j][k];
-    //             mainobj[i][j][k] = nullptr;
-    //         }
-    //     }
-        
-    // }
     
     // Implement your function here  
 }
@@ -406,10 +526,7 @@ void QNA_tool::insert_sentence(int book_code, int page, int paragraph, int sente
         mainobj[book_code][page].resize(c+3);
     }
 
-    // if (mainobj[book_code][page][paragraph] == nullptr)
-    // {
-    //     mainobj[book_code][page][paragraph] = getNode();
-    // }
+
     
 
     vector<string> words = ppr(sentence);
