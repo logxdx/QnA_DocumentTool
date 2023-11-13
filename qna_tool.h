@@ -5,8 +5,6 @@
 #include "dict.h"
 #include "search.h"
 
-//#include "trie.cpp"
-const int ALPHABET_SIZE = 26;
 using namespace std;
 
 class QNA_tool {
@@ -56,7 +54,7 @@ public:
     // You can add attributes/helper functions here
 
 
-
+// SymNode
 class SymNode {
 public:
     string key;
@@ -84,6 +82,8 @@ public:
     
 };
 
+
+// SymbolTable class
 class SymbolTable {
 private:
     int size = 0;
@@ -118,10 +118,6 @@ public:
 };
 
 
-
-
-
-    
 vector<vector<vector<SymbolTable>>> mainobj;
 
 struct scored_para
@@ -133,7 +129,6 @@ struct scored_para
 };
 
 vector<scored_para> tity(string sentence);
-
 
 vector<pair<string, double>> scoring(string sentence);
 
