@@ -7,7 +7,7 @@ CC = g++
 CFLAGS = -Wall -g -std=c++11
 
 # Target
-TARGET = qna_tool
+TARGET = qna_tool_tester
 
 # Object Files
 OBJ = qna_tool.o Node.o tester.o dict.o search.o

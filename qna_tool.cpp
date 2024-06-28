@@ -268,7 +268,7 @@ void QNA_tool::SymbolTable::insert(string k)
         }
 
         maintainheight(root);
-        
+
         QNA_tool::SymNode *traversal = newnode;
         while (true)
         {
@@ -459,7 +459,7 @@ QNA_tool::QNA_tool()
 
 QNA_tool::~QNA_tool()
 {
-
+    
 }
 
 void QNA_tool::insert_sentence(int book_code, int page, int paragraph, int sentence_no, string sentence)
@@ -541,7 +541,7 @@ vector<pair<string, double>> QNA_tool::scoring(string sentence)
     return resoto;
 }
 
-vector<QNA_tool::scored_para> QNA_tool::tity(string sentence)
+vector<QNA_tool::scored_para> QNA_tool::score_paragraph(string sentence)
 {
     vector<scored_para> ret;
 
@@ -575,7 +575,7 @@ vector<QNA_tool::scored_para> QNA_tool::tity(string sentence)
 
 Node *QNA_tool::get_top_k_para(string question, int k)
 {
-    vector<scored_para> a = tity(question);
+    vector<scored_para> a = score_paragraph(question);
 
     heapSort(a, k);
 
@@ -628,7 +628,7 @@ std::string QNA_tool::get_paragraph(int book_code, int page, int paragraph)
 
     cout << "Book_code: " << book_code << " Page: " << page << " Paragraph: " << paragraph << endl;
 
-    std::string filename = "mahatma-gandhi-collected-works-volume-";
+    std::string filename = "MK Gandhi\\mahatma-gandhi-collected-works-volume-";
     filename += to_string(book_code);
     filename += ".txt";
 

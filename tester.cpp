@@ -14,7 +14,7 @@ int main(){
 
         std::cout << "Inserting book " << i << std::endl;
 
-        std::string filename = "mahatma-gandhi-collected-works-volume-";
+        std::string filename = "MK Gandhi\\mahatma-gandhi-collected-works-volume-";
         filename += to_string(i);
         filename += ".txt";
 
@@ -75,7 +75,7 @@ int main(){
 
     }
 
-    cout << "done";
+    cout << "done" << endl;
 
     string question = "What were the views of Mahatma on Partition?";
 
@@ -94,14 +94,16 @@ int main(){
         head = head->right;
     }
 
+    std::ofstream outfile("top_k_paras.txt");
     for(int i = 0; i < (int)paras.size(); i++){
         cout << paras[i] << endl << endl << endl;
+        outfile << paras[i] << endl << endl << endl;
     }
 
     /*
         Part-2 : Query the LLM
     */
-    qna_tool.query(question, "api_call.py");
+    // qna_tool.query(question, "api_call.py");
     
     return 0;
 }

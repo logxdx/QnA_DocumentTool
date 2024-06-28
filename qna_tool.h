@@ -128,7 +128,7 @@ struct scored_para
     double score;
 };
 
-vector<scored_para> tity(string sentence);
+vector<scored_para> score_paragraph(string sentence);
 
 vector<pair<string, double>> scoring(string sentence);
 
